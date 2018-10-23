@@ -1,4 +1,4 @@
 #!/bin/sh
 
-http-server resouces/h
+http-server resouces/
 
