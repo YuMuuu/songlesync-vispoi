@@ -1,2 +1,4 @@
-cd app/
-rails server
+#!/bin/sh
+
+http-server resouces/h
+
