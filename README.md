@@ -1,15 +1,16 @@
+
+
+
 ## master
-
-
-
 ```
-$ cd master
-$ cd app/
-$ rails server 
-$ cd ../  
-$ electron .
+$ npm install
+$ sh master/start.sh
 ```
 
 
 ## slave
-これからつくる
+```
+$ npm install
+$ sh slave/start.sh
+```
+
