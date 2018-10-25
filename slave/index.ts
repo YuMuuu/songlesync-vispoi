@@ -9,6 +9,13 @@ var settings = require("./settings");
 var player = new SW.Player({
     accessToken: settings.tokens.access
 });
+
+// File System API
+var fs = require('fs');
+
+
+
+
 player.addPlugin(new SW.Plugin.Beat());
 // player.addPlugin(new SongleWidget.Plugin.Chord());
 // player.addPlugin(new SongleWidget.Plugin.Melody());
