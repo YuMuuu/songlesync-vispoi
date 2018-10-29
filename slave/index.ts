@@ -1,32 +1,39 @@
+import sa = require("songle-api");　
+import sw = require("songle-widget"); 
+import fs = require('fs'); 
+import settings = require("./settings");
 
-// Songle Sync API
-var SW = require("songle-api");
 
-// トークンの情報を取ってくる
-var settings = require("./settings");
-
-// ビート情報と基本情報をもらってくる
-var player = new SW.Player({
+const player = new sa.Player({
     accessToken: settings.tokens.access
 });
 
-// File System API
-var fs = require('fs');
+
+player.addPlugin(new sa.Plugin.Beat());
+player.addPlugin(new sw.Plugin.Chord());
+//player.addPlugin(new sw.Plugin.Melody());
+//player.addPlugin(new sw.Plugin.Chorus());
+player.addPlugin(new sa.Plugin.SongleSync());
 
 
+player.on("play",        (ev) => console.log("play"));
+player.on("seek",        (ev) => console.log("seek"));
+player.on("pause",       (ev) => console.log("pause"));
+player.on("finish",      (ev) => console.log("finish"));
+player.on("beatPlay",    (ev) => {
+    console.log("beat:", ev.data.beat.position)
+    //console.log(ev)
+});
+player.on("chordPlay",   (ev) => {
+    //console.log("chordPlay")
+    // console.log("duration:", ev.data.chord.duration)
+    console.log("chordName:", ev.data.chord.name)
+    //console.log(ev)
+});
+// player.on("chorusEnter", (ev) => console.log("chorusEnter"));
+// player.on("chorusLeave", (ev) => console.log("chorusLeave"));
+// player.on("repeatEnter", (ev) => console.log("repeatEnter"));
+// player.on("repeatLeave", (ev) => console.log("repeatLeave"));
 
 
-player.addPlugin(new SW.Plugin.Beat());
-// player.addPlugin(new SongleWidget.Plugin.Chord());
-// player.addPlugin(new SongleWidget.Plugin.Melody());
-// player.addPlugin(new SongleWidget.Plugin.Chorus());
-player.addPlugin(new SW.Plugin.SongleSync());
-
-// 何かあったらコンソールに書き出す
-player.on("play", (ev) => console.log("play"));
-player.on("seek", (ev) => console.log("seek"));
-player.on("pause", (ev) => console.log("pause"));
-player.on("beatEnter", (ev) => console.log("beat:", ev.data.beat.position));
-
-// 死なないようにする
-setInterval(() => { }, 1000);
+setInterval(() => { }, 10000);

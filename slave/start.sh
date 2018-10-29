@@ -1,1 +1,1 @@
-node index.ts
+node index.js
