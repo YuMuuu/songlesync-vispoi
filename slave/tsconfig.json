@@ -1,9 +1,15 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "sourceMap": false
-  },
-  "files": [
-    "index.ts"
-  ]
+    "compilerOptions": {
+        "target": "es6",
+        "lib": ["es6"],
+        "module": "commonjs",
+        "sourceMap": true,
+        "outDir": "build",
+        "strict": true,
+        "esModuleInterop": true
+    },
+    "include": [
+        "src/**/*",
+        "test/**/*"
+    ]
 }
