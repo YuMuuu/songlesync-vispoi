@@ -23,6 +23,7 @@ player.on("pause", function (ev) { return console.log("pause"); });
 player.on("finish", function (ev) { return console.log("finish"); });
 player.on("beatPlay", function (ev) {
     console.log("beat:", ev.data.beat.position);
+    beatflash(ev.data.beat.position);
 });
 player.on("chordPlay", function (ev) {
     console.log("chordName:", ev.data.chord.name);

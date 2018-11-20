@@ -29,6 +29,7 @@ player.on("pause", (ev: any) => console.log("pause"))
 player.on("finish", (ev: any) => console.log("finish"))
 player.on("beatPlay", (ev: any) => {
   console.log("beat:", ev.data.beat.position)
+  beatflash(ev.data.beat.position)
 })
 player.on("chordPlay", (ev: any) => {
   console.log("chordName:", ev.data.chord.name)
