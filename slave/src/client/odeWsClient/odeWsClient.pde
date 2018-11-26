@@ -1,8 +1,8 @@
 import websockets.*;
 
 WebsocketClient wsc;
-String message = "";
-int port = 8888;
+private final String message = "";
+private final int port = 8888;
 
 
 public void setup(){
