@@ -25,8 +25,8 @@ enum ActionTypes{
 
 class Player {
   constructor() { }
-  on(Action: ActionTypes, callback: (ev: String) => any){
-    callback();
+  on(Action: ActionTypes, callback: (ev: any) => any){
+    (ev:any) => callback(ev);
   }
 }
 
@@ -35,8 +35,14 @@ foo.on(ActionTypes.PLAY, () => console.log('play'));
 foo.on(ActionTypes.SEEK, () => console.log('seek'));
 foo.on(ActionTypes.PAUSE, () => console.log('pause'));
 foo.on(ActionTypes.FINISH, () => console.log('finish'));
-foo.on(ActionTypes.BEATPLAY, () => console.log('beatplay'));
-foo.on(ActionTypes.CHROEDPLAY, () => console.log('chrodeplay'));
+foo.on(ActionTypes.BEATPLAY, (ev:any) => {
+  console.log('beatplay');
+  ev.data.beat.position;
+});
+foo.on(ActionTypes.CHROEDPLAY, (ev:any) => {
+  console.log('chrodeplay');
+  ev.data.chord.name;
+});
 
 
 //util
