@@ -45,6 +45,7 @@ player.on("chordPlay", function (ev) {
 function rgb2Int(r, g, b) {
     return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
 }
+
 function flash(r, g, b) {
     pixelData.forEach(function (value) {
         value = rgb2Int(r, g, b);
