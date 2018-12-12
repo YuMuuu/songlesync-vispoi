@@ -1,14 +1,20 @@
-const sa = require('songle-api');
-const sw = require('songle-widget');
-const settings = require('./settings');
+// tslint:disable-next-line:no-var-requires
+const sa = require("songle-api");
+// tslint:disable-next-line:no-var-requires
+const sw = require("songle-widget");
+// tslint:disable-next-line:no-var-requires
+const settings = require("./settings");
 const player = new sa.Player({
-  accessToken: settings.tokens.access
+  accessToken: settings.tokens.access,
 });
+// tslint:disable-next-line:new-parens
 player.addPlugin(new sa.Plugin.Beat);
+// tslint:disable-next-line:new-parens
 player.addPlugin(new sw.Plugin.Chord);
+// tslint:disable-next-line:new-parens
 player.addPlugin(new sa.Plugin.SongleSync);
 
-enum ActionTypes{
+enum ActionTypes {
   PLAY,
   SEEK,
   PAUSE,
@@ -19,8 +25,8 @@ enum ActionTypes{
 
 class Player {
   constructor() { }
-  on(Action: ActionTypes, callback: (ev: any) => any){
-    (ev:any) => callback(ev);
+  public on(Action: ActionTypes, callback: (ev: any) => any) {
+    (ev: any) => callback(ev);
   }
 }
 
