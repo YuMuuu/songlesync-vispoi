@@ -7,12 +7,6 @@ const settings = require("./settings");
 const player = new sa.Player({
   accessToken: settings.tokens.access,
 });
-// tslint:disable-next-line:new-parens
-player.addPlugin(new sa.Plugin.Beat);
-// tslint:disable-next-line:new-parens
-player.addPlugin(new sw.Plugin.Chord);
-// tslint:disable-next-line:new-parens
-player.addPlugin(new sa.Plugin.SongleSync);
 
 enum ActionTypes {
   PLAY,
@@ -24,9 +18,16 @@ enum ActionTypes {
 }
 
 class Player {
-  constructor() { }
+  constructor() {
+    // tslint:disable-next-line:new-parens
+    player.addPlugin(new sa.Plugin.Beat);
+    // tslint:disable-next-line:new-parens
+    player.addPlugin(new sw.Plugin.Chord);
+    // tslint:disable-next-line:new-parens
+    player.addPlugin(new sa.Plugin.SongleSync);
+  }
   public on(Action: ActionTypes, callback: (ev: any) => any) {
-    (ev: any) => callback(ev);
+    return (ev: any) => callback(ev);
   }
 }
 
