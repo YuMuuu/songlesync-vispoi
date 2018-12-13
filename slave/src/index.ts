@@ -1,10 +1,10 @@
 import { isRegExp } from "util";
 
-const fs = require('fs')
-const sa = require('songle-api')
-const sw = require('songle-widget')
-const settings = require('./settings')
-const ws281x = require('ws281x-native')
+const fs = require('fs');
+const sa = require('songle-api');
+const sw = require('songle-widget');
+const settings = require('./settings');
+const ws281x = require('ws281x-native');
 
 
 const player = new sa.Player({
