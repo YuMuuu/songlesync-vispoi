@@ -1,6 +1,6 @@
 import { isRegExp } from "util";
 
-const fs = require('fs');
+// const fs = require('fs');
 const sa = require('songle-api');
 const sw = require('songle-widget');
 const settings = require('./settings');
@@ -9,14 +9,14 @@ const ws281x = require('ws281x-native');
 
 const player = new sa.Player({
   accessToken: settings.tokens.access
-})
+});
 const NUM_LEDS = parseInt(process.argv[2], 10) || 10,
   pixelData = new Uint32Array(NUM_LEDS)
-ws281x.inti(NUM_LEDS)
+ws281x.inti(NUM_LEDS);
 process.on('SIGINT', function () {
   ws281x.reset()
   process.nextTick(function () { process.exit(0) })
-})
+});
 
 player.addPlugin(new sa.Plugin.Beat)
 player.addPlugin(new sw.Plugin.Chord)
