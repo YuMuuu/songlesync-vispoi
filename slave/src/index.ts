@@ -4,7 +4,7 @@ import { isRegExp } from "util";
 const sa = require('songle-api');
 const sw = require('songle-widget');
 const settings = require('./settings');
-const ws281x = require('ws281x-native');
+const ws281x = require('rpi-ws281x-native');
 
 
 const player = new sa.Player({
@@ -12,7 +12,7 @@ const player = new sa.Player({
 });
 const NUM_LEDS = parseInt(process.argv[2], 10) || 10,
   pixelData = new Uint32Array(NUM_LEDS)
-ws281x.inti(NUM_LEDS);
+ws281x.init(NUM_LEDS);
 process.on('SIGINT', function () {
   ws281x.reset()
   process.nextTick(function () { process.exit(0) })
@@ -55,7 +55,7 @@ function flash(r: number, g: number, b: number) {
   for (var i = 0; i < NUM_LEDS; i++) {
     pixelData[i] = rgb2Int(r, g, b)
   }
-  ws281x.remder(pixelData)
+  ws281x.render(pixelData)
 }
 
 

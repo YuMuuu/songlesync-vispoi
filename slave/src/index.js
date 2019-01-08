@@ -4,12 +4,12 @@ exports.__esModule = true;
 var sa = require('songle-api');
 var sw = require('songle-widget');
 var settings = require('./settings');
-var ws281x = require('ws281x-native');
+var ws281x = require('rpi-ws281x-native');
 var player = new sa.Player({
     accessToken: settings.tokens.access
 });
 var NUM_LEDS = parseInt(process.argv[2], 10) || 10, pixelData = new Uint32Array(NUM_LEDS);
-ws281x.inti(NUM_LEDS);
+ws281x.init(NUM_LEDS);
 process.on('SIGINT', function () {
     ws281x.reset();
     process.nextTick(function () { process.exit(0); });
@@ -50,7 +50,7 @@ function flash(r, g, b) {
     for (var i = 0; i < NUM_LEDS; i++) {
         pixelData[i] = rgb2Int(r, g, b);
     }
-    ws281x.remder(pixelData);
+    ws281x.render(pixelData);
 }
 function rgb2Int(r, g, b) {
     return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
