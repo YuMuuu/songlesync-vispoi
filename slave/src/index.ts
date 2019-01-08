@@ -38,20 +38,14 @@ player.on("chordPlay", (ev: any) => {
 
 function beatflash(beat: number) {
   if (beat === 1) {
-    flash(255, 0, 0);
-    flash(205, 0, 0);
-    flash(155, 0, 0);
-    flash(105, 0, 0);
-    flash(55, 0, 0);
-    flash(5, 0, 0);
+    for (let i = 255; i > 100; i--) {
+      flash(i, 0, 0);
+    }
 
   } else if (beat === 2) {
-    flash(0, 255, 0);
-    flash(0, 205, 0);
-    flash(0, 155, 0);
-    flash(0, 105, 0);
-    flash(0, 55, 0);
-    flash(0, 5, 0);
+    for (let i = 255; i > 100; i--) {
+      flash(0, i, 0);
+    }
 
   } else if (beat === 3) {
     flash(0, 0, 255);
@@ -60,18 +54,18 @@ function beatflash(beat: number) {
     flash(0, 0, 105);
     flash(0, 0, 55);
     flash(0, 0, 5);
+    for (let i = 255; i > 100; i--) {
+      flash(0, 0, i);
+    }
 
   } else if (beat === 4) {
-    flash(255, 255, 255);
-    flash(205, 205, 205);
-    flash(155, 155, 155);
-    flash(105, 105, 105);
-    flash(55, 55, 55);
-    flash(5, 5, 5);
+    for (let i = 255; i > 100; i--) {
+      flash(i, i, i);
+    }
   } else {
     console.log("error dayon");
   }
-  flash(0, 0, 0);
+  // flash(0, 0, 0);
 }
 
 function flash(r: number, g: number, b: number) {

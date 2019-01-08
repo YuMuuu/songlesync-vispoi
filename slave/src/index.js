@@ -29,22 +29,36 @@ player.on("chordPlay", function (ev) {
     console.log("chordName:", ev.data.chord.name);
 });
 function beatflash(beat) {
-    if (beat == 1) {
-        flash(255, 0, 0);
+    if (beat === 1) {
+        for (var i = 255; i > 100; i--) {
+            flash(i, 0, 0);
+        }
     }
-    else if (beat == 2) {
-        flash(0, 255, 0);
+    else if (beat === 2) {
+        for (var i = 255; i > 100; i--) {
+            flash(0, i, 0);
+        }
     }
-    else if (beat == 3) {
+    else if (beat === 3) {
         flash(0, 0, 255);
+        flash(0, 0, 205);
+        flash(0, 0, 155);
+        flash(0, 0, 105);
+        flash(0, 0, 55);
+        flash(0, 0, 5);
+        for (var i = 255; i > 100; i--) {
+            flash(0, 0, i);
+        }
     }
-    else if (beat == 4) {
-        flash(255, 255, 255);
+    else if (beat === 4) {
+        for (var i = 255; i > 100; i--) {
+            flash(i, i, i);
+        }
     }
     else {
         console.log("error dayon");
     }
-    flash(0, 0, 0);
+    // flash(0, 0, 0);
 }
 function flash(r, g, b) {
     for (var i = 0; i < NUM_LEDS; i++) {
