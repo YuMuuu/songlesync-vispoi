@@ -1,12 +1,8 @@
 import { isRegExp } from "util";
 
-// tslint:disable-next-line:no-var-requires
 const sa = require("songle-api");
-// tslint:disable-next-line:no-var-requires
 const sw = require("songle-widget");
-// tslint:disable-next-line:no-var-requires
 const settings = require("./settings");
-// tslint:disable-next-line:no-var-requires
 const ws281x = require("rpi-ws281x-native");
 
 const player = new sa.Player({
@@ -20,12 +16,12 @@ process.on("SIGINT", () => {
   process.nextTick(() => process.exit(0));
 });
 
-// tslint:disable-next-line:new-parens
+let chorusSectionFlag: boolean = false;
+
 player.addPlugin(new sa.Plugin.Beat);
-// tslint:disable-next-line:new-parens
 player.addPlugin(new sw.Plugin.Chord);
-// tslint:disable-next-line:new-parens
 player.addPlugin(new sa.Plugin.SongleSync);
+player.addPlugin(new sa.Plugin.chordPlay);
 
 player.on("play", (ev: any) => console.log("play"));
 player.on("seek", (ev: any) => console.log("seek"));
@@ -44,16 +40,26 @@ player.on("beatPlay", (ev: any) => {
 player.on("chordPlay", (ev: any) => {
   console.log("chordName:", ev.data.chord.name);
 });
+player.on("chorusSectionEnter", (ev: any) => {
+  console.log("chorusSection enter");
+  chorusSectionFlag = true;
+});
+player.on("chorusSectionLeave", (ev: any) => {
+  console.log("chorusSection leave");
+  chorusSectionFlag = false;
+});
 
 function beatflash(beat: number) {
+  let i = 180;
+  if (chorusSectionFlag) { i = 255; } else { i = 180; }
   if (beat === 1) {
-    flash(255, 0, 0);
+    flash(i, 0, 0);
   } else if (beat === 2) {
-    flash(0, 255, 0);
+    flash(0, i, 0);
   } else if (beat === 3) {
-    flash(0, 0, 255);
+    flash(0, 0, i);
   } else if (beat === 4) {
-    flash(255, 255, 255);
+    flash(i, i, i);
   } else {
     console.log("error dayon");
   }

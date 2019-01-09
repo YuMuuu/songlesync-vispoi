@@ -1,12 +1,8 @@
 "use strict";
 exports.__esModule = true;
-// tslint:disable-next-line:no-var-requires
 var sa = require("songle-api");
-// tslint:disable-next-line:no-var-requires
 var sw = require("songle-widget");
-// tslint:disable-next-line:no-var-requires
 var settings = require("./settings");
-// tslint:disable-next-line:no-var-requires
 var ws281x = require("rpi-ws281x-native");
 var player = new sa.Player({
     accessToken: settings.tokens.access
@@ -18,12 +14,11 @@ process.on("SIGINT", function () {
     ws281x.reset();
     process.nextTick(function () { return process.exit(0); });
 });
-// tslint:disable-next-line:new-parens
+var chorusSectionFlag = false;
 player.addPlugin(new sa.Plugin.Beat);
-// tslint:disable-next-line:new-parens
 player.addPlugin(new sw.Plugin.Chord);
-// tslint:disable-next-line:new-parens
 player.addPlugin(new sa.Plugin.SongleSync);
+player.addPlugin(new sa.Plugin.chordPlay);
 player.on("play", function (ev) { return console.log("play"); });
 player.on("seek", function (ev) { return console.log("seek"); });
 player.on("pause", function (ev) {
@@ -41,18 +36,33 @@ player.on("beatPlay", function (ev) {
 player.on("chordPlay", function (ev) {
     console.log("chordName:", ev.data.chord.name);
 });
+player.on("chorusSectionEnter", function (ev) {
+    console.log("chorusSection enter");
+    chorusSectionFlag = true;
+});
+player.on("chorusSectionLeave", function (ev) {
+    console.log("chorusSection leave");
+    chorusSectionFlag = false;
+});
 function beatflash(beat) {
+    var i = 180;
+    if (chorusSectionFlag) {
+        i = 255;
+    }
+    else {
+        i = 180;
+    }
     if (beat === 1) {
-        flash(255, 0, 0);
+        flash(i, 0, 0);
     }
     else if (beat === 2) {
-        flash(0, 255, 0);
+        flash(0, i, 0);
     }
     else if (beat === 3) {
-        flash(0, 0, 255);
+        flash(0, 0, i);
     }
     else if (beat === 4) {
-        flash(255, 255, 255);
+        flash(i, i, i);
     }
     else {
         console.log("error dayon");
