@@ -11,7 +11,8 @@ var ws281x = require("rpi-ws281x-native");
 var player = new sa.Player({
     accessToken: settings.tokens.access
 });
-var NUM_LEDS = parseInt(process.argv[2], 10) || 10, pixelData = new Uint32Array(NUM_LEDS);
+var NUM_LEDS = parseInt(process.argv[2], 10) || 10;
+var pixelData = new Uint32Array(NUM_LEDS);
 ws281x.init(NUM_LEDS);
 process.on("SIGINT", function () {
     ws281x.reset();

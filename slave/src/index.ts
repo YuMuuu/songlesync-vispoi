@@ -12,8 +12,8 @@ const ws281x = require("rpi-ws281x-native");
 const player = new sa.Player({
   accessToken: settings.tokens.access,
 });
-const NUM_LEDS = parseInt(process.argv[2], 10) || 10,
-  pixelData = new Uint32Array(NUM_LEDS);
+const NUM_LEDS = parseInt(process.argv[2], 10) || 10;
+const pixelData = new Uint32Array(NUM_LEDS);
 ws281x.init(NUM_LEDS);
 process.on("SIGINT", () => {
   ws281x.reset();
@@ -32,7 +32,6 @@ player.on("seek", (ev: any) => console.log("seek"));
 player.on("pause", (ev: any) => {
   console.log("pause");
   flash(0, 0, 0);
-
 });
 player.on("finish", (ev: any) => {
   console.log("finish");
@@ -49,13 +48,10 @@ player.on("chordPlay", (ev: any) => {
 function beatflash(beat: number) {
   if (beat === 1) {
     flash(255, 0, 0);
-
   } else if (beat === 2) {
     flash(0, 255, 0);
-
   } else if (beat === 3) {
     flash(0, 0, 255);
-
   } else if (beat === 4) {
     flash(255, 255, 255);
   } else {
