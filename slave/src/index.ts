@@ -48,9 +48,9 @@ player.on("beatPlay", (ev: any) => {
 player.on("chordPlay", (ev: any) => {
   console.log("chordName:", ev.data.chord.name);
   const str: string = ev.data.chrod.name;
-  const name = str.match(/^[A-G|N]?[#|b]?(m|sus|add|dim|aug||)/u);
-  if (name != null) {
-    chordName = name[0];
+  const repName = str.match(/^[A-G|N]?[#|b]?(m|sus|add|dim|aug||)/u);
+  if (repName != null) {
+    chordName = repName[0];
   } else {
     chordName = "C";
   }
