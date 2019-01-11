@@ -1,8 +1,12 @@
 "use strict";
 exports.__esModule = true;
+// tslint:disable-next-line:no-var-requires
 var sa = require("songle-api");
+// tslint:disable-next-line:no-var-requires
 var sw = require("songle-widget");
+// tslint:disable-next-line:no-var-requires
 var settings = require("./settings");
+// tslint:disable-next-line:no-var-requires
 var ws281x = require("rpi-ws281x-native");
 var player = new sa.Player({
     accessToken: settings.tokens.access
@@ -15,9 +19,14 @@ process.on("SIGINT", function () {
     process.nextTick(function () { return process.exit(0); });
 });
 var chorusSectionFlag = false;
+var chordName = "C";
+// tslint:disable-next-line:new-parens
 player.addPlugin(new sa.Plugin.Beat);
+// tslint:disable-next-line:new-parens
 player.addPlugin(new sw.Plugin.Chord);
+// tslint:disable-next-line:new-parens
 player.addPlugin(new sa.Plugin.SongleSync);
+// tslint:disable-next-line:new-parens
 player.addPlugin(new sa.Plugin.chordPlay);
 player.on("play", function (ev) { return console.log("play"); });
 player.on("seek", function (ev) { return console.log("seek"); });
@@ -35,6 +44,9 @@ player.on("beatPlay", function (ev) {
 });
 player.on("chordPlay", function (ev) {
     console.log("chordName:", ev.data.chord.name);
+    var name = ev.data.chrod.name.match(/^[A-G|N]?[#|b]?(m|sus|add|dim|aug||)/u);
+    chordName = name[0];
+    console.log("easy chordName:", chordName);
 });
 player.on("chorusSectionEnter", function (ev) {
     console.log("chorusSection enter");
@@ -75,6 +87,8 @@ function flash(r, g, b) {
     ws281x.render(pixelData);
 }
 function rgb2Int(r, g, b) {
+    // tslint:disable-next-line:no-bitwise
     return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
 }
+// tslint:disable-next-line:no-empty
 setInterval(function () { }, 10000);
