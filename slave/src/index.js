@@ -42,14 +42,14 @@ player.on("beatPlay", function (ev) {
 });
 player.on("chordPlay", function (ev) {
     var str = ev.data.chrod.name;
+    chordName = str;
     console.log("chordName:", str);
-    var repName = str.match(/^[A-G|N]?[#|b]?(m|sus|add|dim|aug||)/u);
-    if (repName != null) {
-        chordName = repName[0];
-    }
-    else {
-        chordName = "C";
-    }
+    // const repName = str.match(/^[A-G|N]?[#|b]?(m|sus|add|dim|aug||)/u);
+    // if (repName != null) {
+    //   chordName = repName[0];
+    // } else {
+    //   chordName = "C";
+    // }
     console.log("easy chordName:", chordName);
 });
 player.on("chorusSectionEnter", function (ev) {
