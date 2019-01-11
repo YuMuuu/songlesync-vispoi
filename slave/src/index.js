@@ -27,7 +27,7 @@ player.addPlugin(new sw.Plugin.Chord);
 // tslint:disable-next-line:new-parens
 player.addPlugin(new sa.Plugin.SongleSync);
 // tslint:disable-next-line:new-parens
-player.addPlugin(new sa.Plugin.chordPlay);
+player.addPlugin(new sw.Plugin.chordPlay);
 player.on("play", function (ev) { return console.log("play"); });
 player.on("seek", function (ev) { return console.log("seek"); });
 player.on("pause", function (ev) {
