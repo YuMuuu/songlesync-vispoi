@@ -47,8 +47,13 @@ player.on("beatPlay", (ev: any) => {
 });
 player.on("chordPlay", (ev: any) => {
   console.log("chordName:", ev.data.chord.name);
-  const name: string[] = ev.data.chrod.name.match(/^[A-G|N]?[#|b]?(m|sus|add|dim|aug||)/u);
-  chordName = name[0];
+  const str: string = ev.data.chrod.name;
+  const name = str.match(/^[A-G|N]?[#|b]?(m|sus|add|dim|aug||)/u);
+  if (name != null) {
+    chordName = name[0];
+  } else {
+    chordName = "C";
+  }
   console.log("easy chordName:", chordName);
 });
 player.on("chorusSectionEnter", (ev: any) => {
