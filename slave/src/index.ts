@@ -3,6 +3,8 @@ import { isRegExp } from "util";
 // tslint:disable-next-line:no-var-requires
 const sa = require("songle-api");
 // tslint:disable-next-line:no-var-requires
+const sw = require("songle-widget");
+// tslint:disable-next-line:no-var-requires
 const settings = require("./settings");
 // tslint:disable-next-line:no-var-requires
 const ws281x = require("rpi-ws281x-native");
@@ -25,11 +27,9 @@ let chordName: string = "C";
 // tslint:disable-next-line:new-parens
 player.addPlugin(new sa.Plugin.Beat);
 // tslint:disable-next-line:new-parens
-player.addPlugin(new sa.Plugin.Chord);
+player.addPlugin(new sw.Plugin.Chord);
 // tslint:disable-next-line:new-parens
 player.addPlugin(new sa.Plugin.SongleSync);
-// tslint:disable-next-line:new-parens
-player.addPlugin(new sa.Plugin.chordPlay);
 
 player.on("play", (ev: any) => console.log("play"));
 player.on("seek", (ev: any) => console.log("seek"));

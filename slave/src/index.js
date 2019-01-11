@@ -3,6 +3,8 @@ exports.__esModule = true;
 // tslint:disable-next-line:no-var-requires
 var sa = require("songle-api");
 // tslint:disable-next-line:no-var-requires
+var sw = require("songle-widget");
+// tslint:disable-next-line:no-var-requires
 var settings = require("./settings");
 // tslint:disable-next-line:no-var-requires
 var ws281x = require("rpi-ws281x-native");
@@ -21,11 +23,9 @@ var chordName = "C";
 // tslint:disable-next-line:new-parens
 player.addPlugin(new sa.Plugin.Beat);
 // tslint:disable-next-line:new-parens
-player.addPlugin(new sa.Plugin.Chord);
+player.addPlugin(new sw.Plugin.Chord);
 // tslint:disable-next-line:new-parens
 player.addPlugin(new sa.Plugin.SongleSync);
-// tslint:disable-next-line:new-parens
-player.addPlugin(new sa.Plugin.chordPlay);
 player.on("play", function (ev) { return console.log("play"); });
 player.on("seek", function (ev) { return console.log("seek"); });
 player.on("pause", function (ev) {
