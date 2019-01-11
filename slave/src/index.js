@@ -16,6 +16,7 @@ var pixelData = new Uint32Array(NUM_LEDS);
 ws281x.init(NUM_LEDS);
 process.on("SIGINT", function () {
     ws281x.reset();
+    console.log(">>> program end");
     process.nextTick(function () { return process.exit(0); });
 });
 var chorusSectionFlag = false;
@@ -26,6 +27,7 @@ player.addPlugin(new sa.Plugin.Beat);
 player.addPlugin(new sw.Plugin.Chord);
 // tslint:disable-next-line:new-parens
 player.addPlugin(new sa.Plugin.SongleSync);
+console.log("program start >>>");
 player.on("play", function (ev) { return console.log("play"); });
 player.on("seek", function (ev) { return console.log("seek"); });
 player.on("pause", function (ev) {

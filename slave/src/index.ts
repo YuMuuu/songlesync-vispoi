@@ -18,6 +18,7 @@ const pixelData: Uint32Array = new Uint32Array(NUM_LEDS);
 ws281x.init(NUM_LEDS);
 process.on("SIGINT", () => {
   ws281x.reset();
+  console.log(">>> program end");
   process.nextTick(() => process.exit(0));
 });
 
@@ -30,6 +31,8 @@ player.addPlugin(new sa.Plugin.Beat);
 player.addPlugin(new sw.Plugin.Chord);
 // tslint:disable-next-line:new-parens
 player.addPlugin(new sa.Plugin.SongleSync);
+
+console.log("program start >>>");
 
 player.on("play", (ev: any) => console.log("play"));
 player.on("seek", (ev: any) => console.log("seek"));
