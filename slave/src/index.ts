@@ -48,7 +48,11 @@ player.on("beatPlay", (ev: any) => {
 player.on("chordPlay", (ev: any) => {
   console.log("chordName:", ev.data.chord.name);
   const str: string = ev.data.chord.name;
-  console.log("easy chordName:", str);
+  const str2 = str.match(/^[A-G|N]?[#|b]?(m|sus|add|dim|aug||)/u)!;
+  if (str2[0] != null) {
+    chordName = str2[0];
+  }
+  console.log("easy chordName:", chordName);
 });
 player.on("chorusSectionEnter", (ev: any) => {
   console.log("chorusSection enter");
