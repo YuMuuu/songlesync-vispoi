@@ -64,18 +64,34 @@ player.on("chorusSectionLeave", (ev: any) => {
 });
 
 function beatflash(beat: number) {
-  let i = 180;
-  if (chorusSectionFlag) { i = 255; } else { i = 180; }
+  let i = 150;
+  if (chorusSectionFlag) { i = 255; } else { i = 150; }
+  // if (beat === 1) {
+  //   flash(i, 0, 0);
+  // } else if (beat === 2) {
+  //   flash(0, i, 0);
+  // } else if (beat === 3) {
+  //   flash(0, 0, i);
+  // } else if (beat === 4) {
+  //   flash(i, i, i);
+  // } else {
+  //   console.log("error dayon");
+  // }
   if (beat === 1) {
-    flash(i, 0, 0);
+    bright(i);
   } else if (beat === 2) {
-    flash(0, i, 0);
+    bright(i);
   } else if (beat === 3) {
-    flash(0, 0, i);
+    bright(i);
   } else if (beat === 4) {
-    flash(i, i, i);
+    bright(i);
   } else {
     console.log("error dayon");
+  }
+}
+function bright(i: number) {
+  for (let j = i; j > 30; j--) {
+    flash(j, j, j);
   }
 }
 
