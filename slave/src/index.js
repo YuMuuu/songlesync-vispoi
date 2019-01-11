@@ -39,7 +39,7 @@ player.on("finish", function (ev) {
     flash(0, 0, 0);
 });
 player.on("beatPlay", function (ev) {
-    console.log("beat:", ev.data.beat.position);
+    // console.log("beat:", ev.data.beat.position);
     beatflash(ev.data.beat.position);
 });
 player.on("chordPlay", function (ev) {
@@ -95,8 +95,103 @@ function beatflash(beat) {
     }
 }
 function bright(i) {
+    var theta = ChordToTheta(chordName);
+    var RGB = HSVtoRGB(theta);
+    var R = RGB[0];
+    var G = RGB[1];
+    var B = RGB[2];
     for (var j = i; j > 30; j--) {
-        flash(j, j, j);
+        var r = R - j;
+        var g = G - j;
+        var b = B - j;
+        if (r < 0) {
+            r = 0;
+        }
+        if (g < 0) {
+            g = 0;
+        }
+        if (b < 0) {
+            b = 0;
+        }
+        flash(r, g, b);
+    }
+}
+function RGBto32RGB(r, g, b) {
+    // tslint:disable-next-line:no-bitwise
+    return [r * 255 | 0, g * 255 | 0, b * 255 | 0];
+}
+function HSVtoRGB(theta) {
+    var hue = Hue(theta);
+    var C = 1;
+    var X = x(theta);
+    // tslint:disable-next-line:no-bitwise
+    switch (hue / 6 | 0) {
+        case 0:
+            return [C, X, 0];
+        case 1:
+            return [X, C, 0];
+        case 2:
+            return [0, C, X];
+        case 3:
+            return [0, X, C];
+        case 4:
+            return [X, 0, C];
+        case 5:
+            return [C, 0, X];
+        default:
+            return [0, 0, 0];
+    }
+}
+function Hue(theta) {
+    return theta / 60;
+}
+function x(theta) {
+    return 1 - Math.abs(Hue(theta) % 2 - 1);
+}
+function ChordToTheta(chord) {
+    switch (chord) {
+        case "A": return 15;
+        case "Am": return 30;
+        case "A#": return 45;
+        case "Bb": return 45;
+        case "A#m": return 60;
+        case "Bbm": return 60;
+        case "B": return 75;
+        case "Cb": return 75;
+        case "Bm": return 90;
+        case "Cbm": return 90;
+        case "C": return 105;
+        case "B#": return 105;
+        case "Cm": return 120;
+        case "C#": return 135;
+        case "Db": return 135;
+        case "C#m	": return 150;
+        case "Dbm	": return 150;
+        case "D	": return 165;
+        case "Dm": return 180;
+        case "D#": return 195;
+        case "Eb": return 195;
+        case "D#m": return 210;
+        case "Ebm": return 210;
+        case "E": return 225;
+        case "Fb": return 225;
+        case "Em": return 240;
+        case "Fbm": return 240;
+        case "F": return 255;
+        case "E#": return 255;
+        case "Fm": return 270;
+        case "F#": return 285;
+        case "Gb": return 285;
+        case "F#m": return 300;
+        case "Gbm": return 300;
+        case "G": return 315;
+        case "Gm": return 330;
+        case "G#": return 345;
+        case "Ab": return 345;
+        case "G#m": return 360;
+        case "Abm": return 360;
+        case "N": return 0;
+        default: return 0;
     }
 }
 function flash(r, g, b) {
