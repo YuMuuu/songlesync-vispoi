@@ -41,16 +41,9 @@ player.on("beatPlay", function (ev) {
     beatflash(ev.data.beat.position);
 });
 player.on("chordPlay", function (ev) {
-    var str = ev.data.chrod.name;
-    chordName = str;
-    console.log("chordName:", str);
-    // const repName = str.match(/^[A-G|N]?[#|b]?(m|sus|add|dim|aug||)/u);
-    // if (repName != null) {
-    //   chordName = repName[0];
-    // } else {
-    //   chordName = "C";
-    // }
-    console.log("easy chordName:", chordName);
+    console.log("chordName:", ev.data.chord.name);
+    var str = ev.data.chord.name;
+    console.log("easy chordName:", str);
 });
 player.on("chorusSectionEnter", function (ev) {
     console.log("chorusSection enter");
