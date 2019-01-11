@@ -46,8 +46,8 @@ player.on("beatPlay", (ev: any) => {
   beatflash(ev.data.beat.position);
 });
 player.on("chordPlay", (ev: any) => {
-  console.log("chordName:", ev.data.chord.name);
   const str: string = ev.data.chrod.name;
+  console.log("chordName:", str);
   const repName = str.match(/^[A-G|N]?[#|b]?(m|sus|add|dim|aug||)/u);
   if (repName != null) {
     chordName = repName[0];

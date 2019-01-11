@@ -41,11 +41,11 @@ player.on("beatPlay", function (ev) {
     beatflash(ev.data.beat.position);
 });
 player.on("chordPlay", function (ev) {
-    console.log("chordName:", ev.data.chord.name);
     var str = ev.data.chrod.name;
-    var name = str.match(/^[A-G|N]?[#|b]?(m|sus|add|dim|aug||)/u);
-    if (name != null) {
-        chordName = name[0];
+    console.log("chordName:", str);
+    var repName = str.match(/^[A-G|N]?[#|b]?(m|sus|add|dim|aug||)/u);
+    if (repName != null) {
+        chordName = repName[0];
     }
     else {
         chordName = "C";
