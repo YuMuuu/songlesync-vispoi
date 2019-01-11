@@ -43,7 +43,11 @@ player.on("beatPlay", function (ev) {
 player.on("chordPlay", function (ev) {
     console.log("chordName:", ev.data.chord.name);
     var str = ev.data.chord.name;
-    console.log("easy chordName:", str);
+    var str2 = str.match(/^[A-G|N]?[#|b]?(m|sus|add|dim|aug||)/u);
+    if (str2[0] != null) {
+        chordName = str2[0];
+    }
+    console.log("easy chordName:", chordName);
 });
 player.on("chorusSectionEnter", function (ev) {
     console.log("chorusSection enter");
