@@ -11,23 +11,25 @@ var ws281x = require("rpi-ws281x-native");
 var player = new sa.Player({
     accessToken: settings.tokens.access
 });
-var NUM_LEDS = parseInt(process.argv[2], 10) || 10;
+var NUM_LEDS = parseInt(process.argv[2], 10) || 10; // 繋いでるLEDの数を第一引数で取得
 var pixelData = new Uint32Array(NUM_LEDS);
 ws281x.init(NUM_LEDS);
 process.on("SIGINT", function () {
+    // 終了時処理
+    // これ記述しないとprocessが終了しなくて辛い
     ws281x.reset();
-    console.log(">>> program end");
+    console.log(">>> system end");
     process.nextTick(function () { return process.exit(0); });
 });
-var chorusSectionFlag = false;
-var chordName = "C";
+var chorusSectionFlag = false; // 曲のサビかどうか
+var chordName = "N";
 // tslint:disable-next-line:new-parens
 player.addPlugin(new sa.Plugin.Beat);
 // tslint:disable-next-line:new-parens
 player.addPlugin(new sw.Plugin.Chord);
 // tslint:disable-next-line:new-parens
 player.addPlugin(new sa.Plugin.SongleSync);
-console.log("program start >>>");
+console.log("system start >>>");
 player.on("play", function (ev) { return console.log("play"); });
 player.on("seek", function (ev) { return console.log("seek"); });
 player.on("pause", function (ev) {
@@ -45,7 +47,8 @@ player.on("beatPlay", function (ev) {
 player.on("chordPlay", function (ev) {
     console.log("chordName:", ev.data.chord.name);
     var str = ev.data.chord.name;
-    var str2 = str.match(/^[A-G|N]?[#|b]?(m|sus|add|dim|aug||)/u);
+    // const str2 = str.match(/^[A-G|N]?[#|b]?(m|sus|add|dim|aug||)/u)!;
+    var str2 = str.match(/^[A-G|N]?[#|b]?(m||)/u);
     if (str2[0] != null) {
         chordName = str2[0];
     }
@@ -97,9 +100,9 @@ function beatflash(beat) {
 function bright(i) {
     var theta = ChordToTheta(chordName);
     var RGB = HSVtoRGB(theta);
-    var R = RGB[0];
-    var G = RGB[1];
-    var B = RGB[2];
+    var R = RGB[0] * 255;
+    var G = RGB[1] * 255;
+    var B = RGB[2] * 255;
     for (var j = i; j > 30; j--) {
         var r = R - j;
         var g = G - j;
@@ -116,14 +119,14 @@ function bright(i) {
         flash(r, g, b);
     }
 }
-function RGBto32RGB(r, g, b) {
-    // tslint:disable-next-line:no-bitwise
-    return [r * 255 | 0, g * 255 | 0, b * 255 | 0];
-}
 function HSVtoRGB(theta) {
     var hue = Hue(theta);
     var C = 1;
     var X = x(theta);
+    // chordがNだったらwhitecolorを返す
+    if (theta == 0) {
+        return [1, 1, 1];
+    }
     // tslint:disable-next-line:no-bitwise
     switch (hue / 6 | 0) {
         case 0:
@@ -190,6 +193,7 @@ function ChordToTheta(chord) {
         case "Ab": return 345;
         case "G#m": return 360;
         case "Abm": return 360;
+        // chordの値がN(null)や異常系だった場合は0を返す
         case "N": return 0;
         default: return 0;
     }

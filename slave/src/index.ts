@@ -13,17 +13,19 @@ const player = new sa.Player({
   accessToken: settings.tokens.access,
 });
 
-const NUM_LEDS: number = parseInt(process.argv[2], 10) || 10;
+const NUM_LEDS: number = parseInt(process.argv[2], 10) || 10; // 繋いでるLEDの数を第一引数で取得
 const pixelData: Uint32Array = new Uint32Array(NUM_LEDS);
 ws281x.init(NUM_LEDS);
 process.on("SIGINT", () => {
+  // 終了時処理
+  // これ記述しないとprocessが終了しなくて辛い
   ws281x.reset();
-  console.log(">>> program end");
+  console.log(">>> system end");
   process.nextTick(() => process.exit(0));
 });
 
-let chorusSectionFlag: boolean = false;
-let chordName: string = "C";
+let chorusSectionFlag: boolean = false; // 曲のサビかどうか
+let chordName: string = "N";
 
 // tslint:disable-next-line:new-parens
 player.addPlugin(new sa.Plugin.Beat);
@@ -32,7 +34,7 @@ player.addPlugin(new sw.Plugin.Chord);
 // tslint:disable-next-line:new-parens
 player.addPlugin(new sa.Plugin.SongleSync);
 
-console.log("program start >>>");
+console.log("system start >>>");
 
 player.on("play", (ev: any) => console.log("play"));
 player.on("seek", (ev: any) => console.log("seek"));
@@ -51,7 +53,9 @@ player.on("beatPlay", (ev: any) => {
 player.on("chordPlay", (ev: any) => {
   console.log("chordName:", ev.data.chord.name);
   const str: string = ev.data.chord.name;
-  const str2 = str.match(/^[A-G|N]?[#|b]?(m|sus|add|dim|aug||)/u)!;
+  // const str2 = str.match(/^[A-G|N]?[#|b]?(m|sus|add|dim|aug||)/u)!;
+  const str2 = str.match(/^[A-G|N]?[#|b]?(m||)/u)!;
+
   if (str2[0] != null) {
     chordName = str2[0];
   }
@@ -92,12 +96,13 @@ function beatflash(beat: number) {
     console.log("error dayon");
   }
 }
+
 function bright(i: number) {
   const theta = ChordToTheta(chordName);
   const RGB = HSVtoRGB(theta);
-  const R: number = RGB[0];
-  const G: number = RGB[1];
-  const B: number = RGB[2];
+  const R: number = RGB[0] * 255;
+  const G: number = RGB[1] * 255;
+  const B: number = RGB[2] * 255;
   for (let j = i; j > 30; j--) {
     let r = R - j;
     let g = G - j;
@@ -109,22 +114,20 @@ function bright(i: number) {
 
     flash(r, g, b);
   }
-
-
-}
-function RGBto32RGB(r: number, g: number, b: number): [number, number, number] {
-  // tslint:disable-next-line:no-bitwise
-  return [r * 255 | 0, g * 255 | 0, b * 255 | 0];
 }
 
 function HSVtoRGB(theta: number): [number, number, number] {
   const hue = Hue(theta);
   const C = 1;
   const X = x(theta);
+
+  // chordがNだったらwhitecolorを返す
+  if (theta == 0) { return [1, 1, 1]; }
+
   // tslint:disable-next-line:no-bitwise
   switch (hue / 6 | 0) {
     case 0:
- return [C, X, 0];
+      return [C, X, 0];
     case 1:
       return [X, C, 0];
     case 2:
@@ -190,6 +193,7 @@ function ChordToTheta(chord: string): number {
     case "Ab": return 345;
     case "G#m": return 360;
     case "Abm": return 360;
+    // chordの値がN(null)や異常系だった場合は0を返す
     case "N": return 0;
     default: return 0;
   }
