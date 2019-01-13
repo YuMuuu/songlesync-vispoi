@@ -170,7 +170,7 @@ function ChordToTheta(chord: string): number {
     case "Db": return 135;
     case "C#m	": return 150;
     case "Dbm	": return 150;
-    case "D	": return 165;
+    case "D": return 165;
     case "Dm": return 180;
     case "D#": return 195;
     case "Eb": return 195;
