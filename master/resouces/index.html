@@ -1,13 +1,15 @@
 <html><head><script src="//api.songle.jp/v2/api.js"></script><script>
-function onSongleWidgetAPIReady(SongleWidget) {
 
+function onSongleWidgetAPIReady(SongleWidget) {
   // 音楽プレーヤーを表示する
   var player = new SongleWidget.Player({
       accessToken: '0000006a-wuBAAKz' // アクセストークン
     , secretToken: 'hXM7YuwiGtN1CJyn491g8Z6DbGUXnU3C' // シークレットトークン
   });
+  alert(getParam('song'));
   player.useMedia(
-    'https://www.nicovideo.jp/watch/sm11559163',
+    // 'https://www.nicovideo.jp/watch/sm11559163',
+    getParam('song'),
     { rootElement: document.querySelector('div.media') });
   player.addPlugin(new SongleWidget.Plugin.SongleSync());
 
@@ -36,6 +38,16 @@ function onSongleWidgetAPIReady(SongleWidget) {
     span.appendChild(textNode);
   }, 100);
 }
+
+  function getParam(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+      results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+  }
 </script><style type="text/css">
 body {
   margin: 1em;
@@ -53,10 +65,19 @@ iframe {
 p>span {
   font-weight: bold;
 }
-</style></head><body><h1>RASS player</h1>
+</style></head><body><h1>APSS player</h1>
 <div class="media"></div>
 <p>再生時刻: <span class="time">-</span>[ms]</p>
 <p>
   <button class="play">再生</button>
   <button class="pause">停止</button>
-</p></body></html>
+</p>
+
+<form method="get" action="./">
+
+  <p>url <input type="text" name="song"></p>
+  <p><input type="submit" value="送信する"></p>
+
+</form>
+
+</body></html>
